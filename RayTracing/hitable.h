@@ -3,7 +3,7 @@
 
 struct SHitRecord
 {
-	Float t;
+	Float t = 0.0f;
 	Vec3 Pos;
 	Vec3 Normal;
 };

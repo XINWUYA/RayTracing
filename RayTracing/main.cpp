@@ -25,7 +25,7 @@ Vec3 getARandomPointInUnitSphere()
 	Vec3 Point;
 	do
 	{
-		Point = 2.0f * Vec3(generateRandomFloat(-1.0, 1.0), generateRandomFloat(-1.0, 1.0), generateRandomFloat(-1.0, 1.0)) - Vec3(1.0);
+		Point = 2.0f * Vec3(generateRandomFloat(0.0f, 1.0f), generateRandomFloat(0.0f, 1.0f), generateRandomFloat(0.0f, 1.0f)) - Vec3(1.0f);
 	} while (glm::dot(Point, Point) >= 1.0f);
 
 	return Point;
@@ -36,13 +36,13 @@ Vec3 getARandomPointInUnitSphere()
 Vec3 computeColor(const CRay& vRay, const IHitable* vWorld)
 {
 	SHitRecord HitRecord;
-	if (vWorld->hit(vRay, 0.00001, FLT_MAX, HitRecord))
+	if (vWorld->hit(vRay, 0.00001f, FLT_MAX, HitRecord))
 	{
 		Vec3 Target = HitRecord.Pos + HitRecord.Normal + getARandomPointInUnitSphere();
 		return 0.5f * computeColor(CRay(HitRecord.Pos, Target - HitRecord.Pos), vWorld);//0.5f表示每次反射将只有0.5的能量被反射出来，另外一半被物体吸收
 	}
 	Float t = 0.5f * (vRay.getDirection().y + 1.0f);//将范围修改到[0,1]
-	return (1.0f - t) * Vec3(1.0) + t * Vec3(0.5, 0.7, 1.0);
+	return (1.0f - t) * Vec3(1.0f) + t * Vec3(0.5f, 0.7f, 1.0f);
 }
 
 int main()
@@ -55,8 +55,8 @@ int main()
 	OutStringStream << "P3\n" << WindowWidth << " " << WindowHeight << "\n255\n" << std::endl;
 
 	std::vector<IHitable*> HitableList;
-	auto pHitable0 = new CSphere(Vec3(0.0, -100.5, -1.0), 100.0f);
-	auto pHitable1 = new CSphere(Vec3(0.0, 0.0, -1.0), 0.5f);
+	auto pHitable0 = new CSphere(Vec3(0.0f, -100.5f, -1.0f), 100.0f);
+	auto pHitable1 = new CSphere(Vec3(0.0f, 0.0f, -1.0f), 0.5f);
 	HitableList.push_back(pHitable1);
 	HitableList.push_back(pHitable0);
 	IHitable* pWorld = new CHitableList(HitableList);
